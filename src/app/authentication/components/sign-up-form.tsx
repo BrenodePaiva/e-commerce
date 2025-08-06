@@ -1,5 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -20,13 +22,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { authClient } from "@/lib/auth-client";
 
 const formSchema = z
   .object({
     name: z.string("nome inválido.").trim().min(1, "nome é obrigatorio"),
     email: z.email("e-mail inválido."),
-    password: z.string().min(6, "senha muito pequena."),
-    passwordConfirm: z.string().min(6, "senha muito pequena."),
+    password: z.string().min(8, "senha muito pequena."),
+    passwordConfirm: z.string().min(8, "senha muito pequena."),
   })
   .refine(
     (data) => {
@@ -41,6 +44,7 @@ const formSchema = z
 type formValues = z.infer<typeof formSchema>;
 
 const SignUp = () => {
+  const router = useRouter();
   const form = useForm<formValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -51,8 +55,25 @@ const SignUp = () => {
     },
   });
 
-  function onSubmit(values: formValues) {
-    console.log(values);
+  async function onSubmit(values: formValues) {
+    const { data, error } = await authClient.signUp.email({
+      name: values.name, // required
+      email: values.email, // required
+      password: values.password, // required
+      fetchOptions: {
+        onSuccess: () => {
+          // toast.success("Conta criada com sucesso");
+          router.push("/");
+        },
+        onError: (error) => {
+          if (error.error.code === "USER_ALREADY_EXISTS") {
+            toast.error("E-mail já cadastrado.");
+            form.setError("email", { message: "E-mail já cadastrado" });
+          }
+          toast.error(error.error.message);
+        },
+      },
+    });
   }
 
   return (
