@@ -16,7 +16,10 @@ const ProductItem = ({ product, textContainerClassName }: ProductItemProps) => {
   const fristVariant = product.variants[0];
 
   return (
-    <Link href="/" className="flex flex-col gap-4">
+    <Link
+      href={`/product-variant/${fristVariant.slug}`}
+      className="flex flex-col gap-4"
+    >
       <Image
         src={fristVariant.imageUrl.replace(/["{}]/g, "")}
         alt={fristVariant.name}
