@@ -155,14 +155,14 @@ const SignIn = () => {
                 />
               </svg>
 
-              <text>
-                <tspan fill="#4285F4">G</tspan>
-                <tspan fill="#EA4335">o</tspan>
-                <tspan fill="#FBBC05">o</tspan>
-                <tspan fill="#4285F4">g</tspan>
-                <tspan fill="#34A853">l</tspan>
-                <tspan fill="#EA4335">e</tspan>
-              </text>
+              <p>
+                <span className="text-[#4285F4]">G</span>
+                <span className="text-[#EA4335]">o</span>
+                <span className="text-[#FBBC05]">o</span>
+                <span className="text-[#4285F4]">g</span>
+                <span className="text-[#34A853]">l</span>
+                <span className="text-[#EA4335]">e</span>
+              </p>
             </Button>
           </CardFooter>
         </form>
