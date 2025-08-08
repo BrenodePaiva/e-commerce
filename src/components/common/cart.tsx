@@ -68,7 +68,7 @@ export const Cart = () => {
               <Separator />
 
               <div className="flex items-center justify-between text-xs font-medium">
-                <p>Entraga</p>
+                <p>Entrega</p>
                 <p>GRÁTIS</p>
               </div>
 
