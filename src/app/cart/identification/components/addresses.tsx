@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -25,8 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
-// interface AddressesProps {}
+import { useCreateShippingAddress } from "@/hooks/mutations/use-create-shipping-address";
 
 const formSchema = z.object({
   email: z.email("e-mail inválido."),
@@ -46,6 +46,7 @@ type formValues = z.infer<typeof formSchema>;
 
 const Addresses = () => {
   const [selectAddress, setSelectAddress] = useState<string | null>(null);
+  const createShippingAddressMutation = useCreateShippingAddress();
 
   const form = useForm<formValues>({
     resolver: zodResolver(formSchema),
@@ -65,7 +66,15 @@ const Addresses = () => {
   });
 
   async function onSubmit(values: formValues) {
-    console.log(values);
+    try {
+      await createShippingAddressMutation.mutateAsync(values);
+      toast.success("Edereço criado com sucesso");
+      form.reset();
+      setSelectAddress(null);
+    } catch (error) {
+      toast.error("Erro ao criar endereço. Tente novamente");
+      console.error(error);
+    }
   }
   return (
     <Card>
@@ -279,7 +288,15 @@ const Addresses = () => {
                 />
               </CardContent>
               <CardFooter>
-                <Button type="submit">Salvar endereço</Button>
+                <Button
+                  type="submit"
+                  disabled={createShippingAddressMutation.isPending}
+                  className="w-full"
+                >
+                  {createShippingAddressMutation.isPending
+                    ? "Salvando...."
+                    : "Salvar endereço"}
+                </Button>
               </CardFooter>
             </form>
           </Form>
