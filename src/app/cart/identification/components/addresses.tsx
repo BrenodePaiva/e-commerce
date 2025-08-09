@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCreateShippingAddress } from "@/hooks/mutations/use-create-shipping-address";
+import { useUserAddress } from "@/hooks/queries/use-user-address";
 
 const formSchema = z.object({
   email: z.email("e-mail inválido."),
@@ -47,6 +48,7 @@ type formValues = z.infer<typeof formSchema>;
 const Addresses = () => {
   const [selectAddress, setSelectAddress] = useState<string | null>(null);
   const createShippingAddressMutation = useCreateShippingAddress();
+  const { data: addresses, isLoading } = useUserAddress();
 
   const form = useForm<formValues>({
     resolver: zodResolver(formSchema),
@@ -67,10 +69,11 @@ const Addresses = () => {
 
   async function onSubmit(values: formValues) {
     try {
-      await createShippingAddressMutation.mutateAsync(values);
+      const newAddress =
+        await createShippingAddressMutation.mutateAsync(values);
       toast.success("Edereço criado com sucesso");
       form.reset();
-      setSelectAddress(null);
+      setSelectAddress(newAddress.id);
     } catch (error) {
       toast.error("Erro ao criar endereço. Tente novamente");
       console.error(error);
@@ -83,6 +86,26 @@ const Addresses = () => {
       </CardHeader>
       <CardContent>
         <RadioGroup value={selectAddress} onValueChange={setSelectAddress}>
+          {addresses?.map((address) => (
+            <Card key={address.id}>
+              <CardContent>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value={address.id} id={address.id} />
+                  <Label htmlFor={address.id}>
+                    <div>
+                      <p className="text-sm">
+                        {address.recipientName} . {address.street},{" "}
+                        {address.number}{" "}
+                        {address.complement && `${address.complement}`},{" "}
+                        {address.neighborhood}, {address.city} - {address.state}{" "}
+                        . CEP: {address.zipCode}
+                      </p>
+                    </div>
+                  </Label>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
           <Card>
             <CardContent>
               <div className="flex items-center space-x-2">
