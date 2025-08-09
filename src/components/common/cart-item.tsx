@@ -8,12 +8,12 @@ import { addProductToCart } from "@/actions/add-cart-product";
 import { decreaseCartProductQuantity } from "@/actions/decrease-cart-product-quantity";
 import { removeProductFromCart } from "@/actions/remove-cart-product";
 import { formatCentsToBRL } from "@/helpers/money";
-import { useDecreaseCartProduct } from "@/hooks/mutatios/use-decrease-cart-product";
-import { useIncreaseCartProduct } from "@/hooks/mutatios/use-increase-cart-product";
+import { useDecreaseCartProduct } from "@/hooks/mutations/use-decrease-cart-product";
+import { useIncreaseCartProduct } from "@/hooks/mutations/use-increase-cart-product";
 import {
   getRemoveProductFromCartMutationKey,
   useRemoveProductFromCartMutation,
-} from "@/hooks/mutatios/use-remove-product-from-cart";
+} from "@/hooks/mutations/use-remove-product-from-cart";
 
 import { Button } from "../ui/button";
 

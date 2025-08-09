@@ -26,7 +26,7 @@ import { authClient } from "@/lib/auth-client";
 
 const formSchema = z
   .object({
-    name: z.string("nome inválido.").trim().min(1, "nome é obrigatorio"),
+    name: z.string("nome inválido.").trim().min(1, "nome é obrigatório"),
     email: z.email("e-mail inválido."),
     password: z.string().min(8, "senha muito pequena."),
     passwordConfirm: z.string().min(8, "senha muito pequena."),
