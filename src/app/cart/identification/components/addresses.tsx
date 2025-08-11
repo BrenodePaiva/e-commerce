@@ -109,7 +109,9 @@ const Addresses = ({
       await updateCartShippingAddressMutation.mutateAsync({
         shippingAddressId: selectAddress,
       });
-      toast.success("Endereço selecionado para entrega");
+      toast.success("Endereço selecionado para entrega", {
+        position: "top-center",
+      });
     } catch (error) {
       toast.error("Erro ao selecionar endereço. tente novamente");
       console.error(error);
