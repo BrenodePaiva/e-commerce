@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
@@ -31,6 +32,8 @@ import { useCreateShippingAddress } from "@/hooks/mutations/use-create-shipping-
 import { useUpdateShippingAddress } from "@/hooks/mutations/use-update-cart-shipping-address";
 import { useUserAddress } from "@/hooks/queries/use-user-address";
 
+import { formatAddress } from "../../helpers/address";
+
 const formSchema = z.object({
   email: z.email("e-mail inválido."),
   fullName: z.string("nome inválido.").trim().min(1, "nome é obrigatório"),
@@ -56,6 +59,7 @@ const Addresses = ({
   shippingAddresses,
   initialShippinaddressId,
 }: AddressesProps) => {
+  const router = useRouter();
   const [selectAddress, setSelectAddress] = useState<string | null>(
     initialShippinaddressId || null,
   );
@@ -101,9 +105,7 @@ const Addresses = ({
   }
 
   const handleGoToPayment = async () => {
-    if (!selectAddress || selectAddress === "add_new") {
-      return toast.warning("Escolha um Endereço");
-    }
+    if (!selectAddress || selectAddress === "add_new") return;
 
     try {
       await updateCartShippingAddressMutation.mutateAsync({
@@ -112,6 +114,7 @@ const Addresses = ({
       toast.success("Endereço selecionado para entrega", {
         position: "top-center",
       });
+      router.push("/cart/confirmation");
     } catch (error) {
       toast.error("Erro ao selecionar endereço. tente novamente");
       console.error(error);
@@ -131,13 +134,7 @@ const Addresses = ({
                   <RadioGroupItem value={address.id} id={address.id} />
                   <Label htmlFor={address.id}>
                     <div>
-                      <p className="text-sm">
-                        {address.recipientName} . {address.street},{" "}
-                        {address.number}{" "}
-                        {address.complement && `${address.complement}`},{" "}
-                        {address.neighborhood}, {address.city} - {address.state}{" "}
-                        . CEP: {address.zipCode}
-                      </p>
+                      <p className="text-sm">{formatAddress(address)}</p>
                     </div>
                   </Label>
                 </div>

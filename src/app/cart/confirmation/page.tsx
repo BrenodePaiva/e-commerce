@@ -4,14 +4,16 @@ import { redirect } from "next/navigation";
 
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/db";
 import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import CartSummary from "../components/cart-summary";
-import Addresses from "./components/addresses";
+import { formatAddress } from "../helpers/address";
 
-const IdentificationPage = async () => {
+const ConfirmationPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -40,22 +42,35 @@ const IdentificationPage = async () => {
     redirect("/");
   }
 
-  const shippingAddresses = await db.query.shippingAddressTable.findMany({
-    where: eq(shippingAddressTable.userId, session.user.id),
-  });
+  if (!cart.shippingAddress) {
+    redirect("/cart/identification");
+  }
+
   const cartTotalInCents = cart.items.reduce(
     (acc, item) => acc + item.productVariant.priceInCents * item.quantity,
     0,
   );
+
   return (
     <div>
       <Header />
       <div className="space-y-4 px-5">
-        <Addresses
-          shippingAddresses={shippingAddresses}
-          initialShippinaddressId={cart.shippingAddress?.id || null}
-        />
+        <Card>
+          <CardHeader>
+            <CardTitle>Identificação</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <Card>
+              <CardContent className="text-sm">
+                {formatAddress(cart.shippingAddress)}
+              </CardContent>
+            </Card>
 
+            <Button className="w-full rounded-full" size="lg">
+              Finalizar compra
+            </Button>
+          </CardContent>
+        </Card>
         <CartSummary
           subtotalInCents={cartTotalInCents}
           totalInCents={cartTotalInCents}
@@ -76,4 +91,4 @@ const IdentificationPage = async () => {
   );
 };
 
-export default IdentificationPage;
+export default ConfirmationPage;
