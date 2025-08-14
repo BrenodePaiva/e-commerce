@@ -25,6 +25,7 @@ const IdentificationPage = async () => {
     with: {
       shippingAddress: true,
       items: {
+        orderBy: (items, { asc }) => asc(items.createdAt),
         with: {
           productVariant: {
             with: {
