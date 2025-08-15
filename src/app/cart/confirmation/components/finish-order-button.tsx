@@ -54,7 +54,7 @@ const FinishOrderButton = () => {
         Finalizar compra
       </Button>
 
-      <Dialog open={successDialog} onOpenChange={setSuccessDialog}>
+      {/* <Dialog open={successDialog} onOpenChange={setSuccessDialog}>
         <DialogContent>
           <Image
             src={"/illustration.svg"}
@@ -83,7 +83,7 @@ const FinishOrderButton = () => {
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 };
