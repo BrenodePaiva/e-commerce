@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-import CartSummary from "@/app/cart/components/cart-summary";
 import {
   Accordion,
   AccordionContent,

@@ -65,7 +65,7 @@ const Addresses = ({
   );
   const createShippingAddressMutation = useCreateShippingAddress();
   const updateCartShippingAddressMutation = useUpdateShippingAddress();
-  const { data: addresses, isLoading } = useUserAddress({
+  const { data: addresses } = useUserAddress({
     initialData: shippingAddresses,
   });
 

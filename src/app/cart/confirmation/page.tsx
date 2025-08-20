@@ -64,9 +64,6 @@ const ConfirmationPage = async () => {
               </CardContent>
             </Card>
 
-            {/* <Button className="w-full rounded-full" size="lg">
-              Finalizar compra
-            </Button> */}
             <FinishOrderButton />
           </CardContent>
         </Card>
