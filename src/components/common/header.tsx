@@ -2,6 +2,7 @@
 import { Handbag, LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { categoryTable } from "@/db/schema";
 import { authClient } from "@/lib/auth-client";
@@ -33,6 +34,12 @@ interface CategoriesProps {
 
 export const Header = ({ categories }: CategoriesProps) => {
   const { data: session } = authClient.useSession();
+  const navigate = useRouter();
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    navigate.push("/");
+  };
 
   return (
     <>
@@ -78,7 +85,7 @@ export const Header = ({ categories }: CategoriesProps) => {
                         <Button
                           className="justify-start p-0"
                           variant="ghost"
-                          onClick={() => authClient.signOut()}
+                          onClick={handleSignOut}
                         >
                           <LogOutIcon size={18} />
                           Sair da conta
@@ -153,15 +160,26 @@ export const Header = ({ categories }: CategoriesProps) => {
                             </Button>
                           </Link>
                         </SheetClose>
+
+                        <Button
+                          className="w-full justify-start p-0"
+                          variant="ghost"
+                          onClick={handleSignOut}
+                        >
+                          <LogOutIcon size={18} />
+                          Sair da conta
+                        </Button>
                       </>
                     ) : (
                       <div className="flex items-center justify-between">
                         <h2 className="font-semibold">Olá. Faça login!</h2>
-                        <Button size="icon" asChild variant="outline">
-                          <Link href="/authentication">
-                            <LogInIcon />
-                          </Link>
-                        </Button>
+                        <SheetClose asChild>
+                          <Button size="icon" asChild variant="outline">
+                            <Link href="/authentication">
+                              <LogInIcon />
+                            </Link>
+                          </Button>
+                        </SheetClose>
                       </div>
                     )}
                   </div>
