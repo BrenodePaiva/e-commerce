@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { formatCentsToBRL } from "@/helpers/money";
 import { useCart } from "@/hooks/queries/use-cart";
+import { authClient } from "@/lib/auth-client";
 
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
@@ -19,6 +20,7 @@ import CartItem from "./cart-item";
 
 export const Cart = () => {
   const { data: cart, isPending: cartIsLoading } = useCart();
+  const { data: session } = authClient.useSession();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -37,20 +39,21 @@ export const Cart = () => {
             <ScrollArea className="h-full">
               <div className="flex h-full flex-col gap-8">
                 {cartIsLoading && <div>Carregando.....</div>}
-                {cart?.items.map((item) => (
-                  <CartItem
-                    key={item.id}
-                    id={item.id}
-                    productName={item.productVariant.product.name}
-                    productVariantId={item.productVariant.id}
-                    productVariantName={item.productVariant.name}
-                    productVariantImageUrl={item.productVariant.imageUrl}
-                    productVariantPriceInCents={
-                      item.productVariant.priceInCents
-                    }
-                    quantity={item.quantity}
-                  />
-                ))}
+                {session?.user &&
+                  cart?.items.map((item) => (
+                    <CartItem
+                      key={item.id}
+                      id={item.id}
+                      productName={item.productVariant.product.name}
+                      productVariantId={item.productVariant.id}
+                      productVariantName={item.productVariant.name}
+                      productVariantImageUrl={item.productVariant.imageUrl}
+                      productVariantPriceInCents={
+                        item.productVariant.priceInCents
+                      }
+                      quantity={item.quantity}
+                    />
+                  ))}
               </div>
             </ScrollArea>
           </div>

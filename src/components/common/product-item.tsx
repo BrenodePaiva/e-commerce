@@ -26,7 +26,7 @@ const ProductItem = ({ product, textContainerClassName }: ProductItemProps) => {
         sizes="100vw"
         height={0}
         width={0}
-        className="h-auto w-full rounded-3xl"
+        className="h-auto w-full rounded-3xl lg:w-[250px]"
       />
       <div
         className={cn(
@@ -35,7 +35,12 @@ const ProductItem = ({ product, textContainerClassName }: ProductItemProps) => {
         )}
       >
         <p className="truncate text-sm font-medium">{product.name}</p>
-        <p className="text-foreground truncate text-xs font-medium">
+        <p
+          className={cn(
+            "text-foreground truncate text-xs font-medium lg:max-w-[250px]",
+            textContainerClassName,
+          )}
+        >
           {product.description}
         </p>
         <p className="truncate text-sm font-semibold">

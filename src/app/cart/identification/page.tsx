@@ -2,8 +2,6 @@ import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import Footer from "@/components/common/footer";
-import { Header } from "@/components/common/header";
 import { db } from "@/db";
 import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
@@ -50,8 +48,7 @@ const IdentificationPage = async () => {
   );
   return (
     <div>
-      <Header />
-      <div className="space-y-4 px-5">
+      <div className="space-y-4 px-5 md:flex md:items-start md:justify-center md:gap-5">
         <Addresses
           shippingAddresses={shippingAddresses}
           initialShippinaddressId={cart.shippingAddress?.id || null}
@@ -69,9 +66,6 @@ const IdentificationPage = async () => {
             imageUrl: item.productVariant.imageUrl,
           }))}
         />
-      </div>
-      <div className="mt-12">
-        <Footer />
       </div>
     </div>
   );

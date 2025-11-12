@@ -23,7 +23,7 @@ const CartSummary = ({
   products,
 }: CartSummaryProps) => {
   return (
-    <Card>
+    <Card className="grow md:max-w-[262px] md:min-w-[262px] lg:min-w-[400px]">
       <CardHeader>
         <CardTitle>Resumo</CardTitle>
       </CardHeader>

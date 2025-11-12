@@ -1,8 +1,6 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import Footer from "@/components/common/footer";
-import { Header } from "@/components/common/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/db";
 import { auth } from "@/lib/auth";
@@ -51,8 +49,7 @@ const ConfirmationPage = async () => {
 
   return (
     <div>
-      <Header />
-      <div className="space-y-4 px-5">
+      <div className="space-y-4 px-5 md:flex md:items-start md:justify-center md:gap-5">
         <Card>
           <CardHeader>
             <CardTitle>Identificação</CardTitle>
@@ -79,9 +76,6 @@ const ConfirmationPage = async () => {
             imageUrl: item.productVariant.imageUrl,
           }))}
         />
-      </div>
-      <div className="mt-12">
-        <Footer />
       </div>
     </div>
   );

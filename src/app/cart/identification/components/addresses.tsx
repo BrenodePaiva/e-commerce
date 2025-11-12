@@ -121,7 +121,7 @@ const Addresses = ({
     }
   };
   return (
-    <Card>
+    <Card className="lg:max-w-[700px]">
       <CardHeader>
         <CardTitle>Identificação</CardTitle>
       </CardHeader>

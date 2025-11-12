@@ -1,9 +1,9 @@
 import "server-only";
 
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { productTable } from "@/db/schema";
+import { productTable, productVariantTable } from "@/db/schema";
 
 //DTO (Data Transfer Object)
 // interface ProductDto {
@@ -28,6 +28,27 @@ export const getNewlyCreatedProducts = async () => {
     orderBy: [desc(productTable.createdAt)],
     with: { variants: true },
   });
-
   return products;
 };
+
+export const getProductVariant = async (slug:string) => {
+  const product = await db.query.productVariantTable.findFirst({
+    where: eq(productVariantTable.slug, slug),
+    with: {
+      product: {
+        with: {
+          variants: true,
+        },
+      },
+    },
+  });
+  return product
+}
+
+export const getLikelyProducts = async (categoryId:string) => {
+  const products = await db.query.productTable.findMany({
+    where: eq(productTable.categoryId, categoryId),
+    with: { variants: true },
+  });
+  return products
+}
