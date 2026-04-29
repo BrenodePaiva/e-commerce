@@ -33,26 +33,28 @@ const MyOrdersPage = async () => {
   });
 
   return (
-    <div className="flex w-full items-center justify-center">
-      <div className="w-full max-w-[600px] px-5">
-        <Orders
-          orders={orders.map((order) => ({
-            id: order.id,
-            totalPriceInCents: order.totalPriceInCents,
-            status: order.status,
-            createdAt: order.createdAt,
-            items: order.items.map((item) => ({
-              id: item.id,
-              imageUrl: item.productVariant.imageUrl.replace(/["{}]/g, ""),
-              productName: item.productVariant.product.name,
-              productVariantName: item.productVariant.name,
-              priceInCents: item.productVariant.priceInCents,
-              quantity: item.quantity,
-            })),
-          }))}
-        />
+    <>
+      <div className="flex w-full items-center justify-center">
+        <div className="w-full max-w-[600px] px-5">
+          <Orders
+            orders={orders.map((order) => ({
+              id: order.id,
+              totalPriceInCents: order.totalPriceInCents,
+              status: order.status,
+              createdAt: order.createdAt,
+              items: order.items.map((item) => ({
+                id: item.id,
+                imageUrl: item.productVariant.imageUrl.replace(/["{}]/g, ""),
+                productName: item.productVariant.product.name,
+                productVariantName: item.productVariant.name,
+                priceInCents: item.productVariant.priceInCents,
+                quantity: item.quantity,
+              })),
+            }))}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

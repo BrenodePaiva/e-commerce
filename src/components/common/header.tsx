@@ -65,25 +65,22 @@ export const Header = ({ categories }: CategoriesProps) => {
                       </div>
                     </NavigationMenuTrigger>
 
-                    <NavigationMenuContent className="">
+                    <NavigationMenuContent className="space-y-2">
                       <NavigationMenuLink className="border-b border-solid">
                         {session.user.email}
                       </NavigationMenuLink>
-                      <NavigationMenuLink className="p-0">
-                        <Button
-                          className="justify-start p-0"
-                          variant="ghost"
-                          asChild
+                      <NavigationMenuLink className="p-0" asChild>
+                        <Link
+                          href="/my-orders"
+                          className="flex flex-row items-center gap-2 px-3 py-2 font-semibold"
                         >
-                          <Link href="/my-orders">
-                            <Handbag size={18} />
-                            Ver meus pedidos
-                          </Link>
-                        </Button>
+                          <Handbag size={18} />
+                          Ver meus pedidos
+                        </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink className="p-0">
                         <Button
-                          className="justify-start p-0"
+                          className="justify-start px-3 py-2"
                           variant="ghost"
                           onClick={handleSignOut}
                         >

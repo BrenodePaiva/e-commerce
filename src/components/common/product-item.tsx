@@ -5,6 +5,8 @@ import { productTable, productVariantTable } from "@/db/schema";
 import { formatCentsToBRL } from "@/helpers/money";
 import { cn } from "@/lib/utils";
 
+import { Skeleton } from "../ui/skeleton";
+
 interface ProductItemProps {
   product: typeof productTable.$inferSelect & {
     variants: (typeof productVariantTable.$inferSelect)[];
@@ -48,6 +50,21 @@ const ProductItem = ({ product, textContainerClassName }: ProductItemProps) => {
         </p>
       </div>
     </Link>
+  );
+};
+
+export const ProductItemSkeleton = () => {
+  return (
+    <div className="grid grid-cols-2 gap-4 lg:flex lg:flex-wrap lg:gap-y-7">
+      {Array.from({ length: 10 }).map((_, i) => (
+        <div key={i} className="flex flex-col gap-3">
+          <Skeleton className="h-52 w-full rounded-3xl lg:w-[250px]"></Skeleton>
+          <Skeleton className="h-4 w-16"></Skeleton>
+          <Skeleton className="h-4 w-3xs"></Skeleton>
+          <Skeleton className="h-5 w-20"></Skeleton>
+        </div>
+      ))}
+    </div>
   );
 };
 

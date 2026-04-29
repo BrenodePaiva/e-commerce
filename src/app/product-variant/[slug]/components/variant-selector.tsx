@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { productVariantTable } from "@/db/schema";
 
 interface VariantSelectorProps {
@@ -32,6 +33,16 @@ const VariantSelector = ({
             className="rounded-xl"
           />
         </Link>
+      ))}
+    </div>
+  );
+};
+
+export const VariantSelectorSkeleton = () => {
+  return (
+    <div className="flex items-center gap-4">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Skeleton key={i} className="h-[68px] w-[68px] rounded-xl"></Skeleton>
       ))}
     </div>
   );
